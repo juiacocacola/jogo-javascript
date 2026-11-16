@@ -1,0 +1,159 @@
+const bancoPalavras = [
+    { palavra: "javascript", dica: "Linguagem de programação que roda no navegador" },
+    { palavra: "html", dica: "Linguagem de marcação usada para estruturar páginas web" },
+    { palavra: "css", dica: "Folhas de estilo usadas para dar visual às páginas" },
+    { palavra: "internet", dica: "Rede mundial de computadores" },
+    { palavra: "navegador", dica: "Programa usado para acessar sites (ex: Chrome, Firefox)" },
+    { palavra: "programacao", dica: "Ato de escrever instruções para o computador executar" },
+    { palavra: "computador", dica: "Máquina eletrônica que processa dados" },
+    { palavra: "algoritmo", dica: "Sequência finita de passos para resolver um problema" },
+    { palavra: "variavel", dica: "Espaço na memória usado para guardar um valor" },
+    { palavra: "funcao", dica: "Bloco de código reutilizável que executa uma tarefa" },
+    { palavra: "teclado", dica: "Periférico usado para digitar textos e comandos" },
+    { palavra: "servidor", dica: "Computador que hospeda sites e responde a requisições" }
+];
+
+let palavraSecreta = "";
+let dicaAtual = "";
+let letrasCorretas = [];
+let letrasUsadas = [];
+let tentativas = 6;
+let jogoEncerrado = false;
+
+let partidas = 0;
+let vitorias = 0;
+let derrotas = 0;
+
+const elementoPalavra = document.getElementById("palavra");
+const elementoDica = document.getElementById("dica-texto");
+const elementoTentativas = document.getElementById("tentativas");
+const inputLetra = document.getElementById("letra");
+const mensagem = document.getElementById("mensagem");
+const elementoLetrasUsadas = document.getElementById("letras-usadas");
+const botaoTentar = document.getElementById("btn-tentar");
+const botaoReiniciar = document.getElementById("btn-reiniciar");
+const elementoPartidas = document.getElementById("partidas");
+const elementoVitorias = document.getElementById("vitorias");
+const elementoDerrotas = document.getElementById("derrotas");
+
+function iniciarJogo() {
+    const indice = Math.floor(Math.random() * bancoPalavras.length);
+    palavraSecreta = bancoPalavras[indice].palavra;
+    dicaAtual = bancoPalavras[indice].dica;
+
+    tentativas = 6;
+    letrasCorretas = [];
+    letrasUsadas = [];
+    jogoEncerrado = false;
+
+    elementoDica.textContent = dicaAtual;
+    elementoTentativas.textContent = tentativas;
+    elementoLetrasUsadas.textContent = "Nenhuma";
+    mensagem.textContent = "Boa sorte! Digite uma letra.";
+    mensagem.className = "mensagem";
+
+    inputLetra.value = "";
+    inputLetra.disabled = false;
+    botaoTentar.disabled = false;
+    inputLetra.focus();
+
+    atualizarPalavra();
+}
+
+function atualizarPalavra() {
+    let exibicao = "";
+    for (let i = 0; i < palavraSecreta.length; i++) {
+        const letra = palavraSecreta[i];
+        if (letrasCorretas.includes(letra)) {
+            exibicao += letra.toUpperCase() + " ";
+        } else {
+            exibicao += "_ ";
+        }
+    }
+    elementoPalavra.textContent = exibicao.trim();
+}
+
+function venceu() {
+    for (let i = 0; i < palavraSecreta.length; i++) {
+        const letra = palavraSecreta[i];
+        if (!letrasCorretas.includes(letra)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function finalizarPartida(ganhou) {
+    jogoEncerrado = true;
+    inputLetra.disabled = true;
+    botaoTentar.disabled = true;
+    partidas++;
+
+    if (ganhou) {
+        vitorias++;
+        mensagem.textContent = "Parabéns! Você venceu!";
+        mensagem.className = "mensagem acerto";
+    } else {
+        derrotas++;
+        mensagem.textContent = "Você perdeu! A palavra era: " + palavraSecreta.toUpperCase();
+        mensagem.className = "mensagem erro";
+    }
+
+    elementoPartidas.textContent = partidas;
+    elementoVitorias.textContent = vitorias;
+    elementoDerrotas.textContent = derrotas;
+}
+
+function verificarLetra() {
+    if (jogoEncerrado) return;
+
+    const letra = inputLetra.value.trim().toLowerCase();
+    inputLetra.value = "";
+    inputLetra.focus();
+
+    if (letra === "" || !/^[a-z]$/.test(letra)) {
+        mensagem.textContent = "Digite apenas uma letra válida (A-Z).";
+        mensagem.className = "mensagem aviso";
+        return;
+    }
+
+    if (letrasUsadas.includes(letra)) {
+        mensagem.textContent = "Letra já utilizada! Tente outra.";
+        mensagem.className = "mensagem aviso";
+        return;
+    }
+
+    letrasUsadas.push(letra);
+    elementoLetrasUsadas.textContent = letrasUsadas.join(", ");
+
+    if (palavraSecreta.includes(letra)) {
+        letrasCorretas.push(letra);
+        mensagem.textContent = "Você acertou!";
+        mensagem.className = "mensagem acerto";
+    } else {
+        tentativas--;
+        elementoTentativas.textContent = tentativas;
+        mensagem.textContent = "Você errou!";
+        mensagem.className = "mensagem erro";
+    }
+
+    atualizarPalavra();
+
+    if (venceu()) {
+        finalizarPartida(true);
+    } else if (tentativas === 0) {
+        finalizarPartida(false);
+    }
+}
+
+botaoTentar.addEventListener("click", verificarLetra);
+
+inputLetra.addEventListener("keydown", function (evento) {
+    if (evento.key === "Enter") {
+        verificarLetra();
+    }
+});
+
+botaoReiniciar.addEventListener("click", iniciarJogo);
+
+iniciarJogo();
