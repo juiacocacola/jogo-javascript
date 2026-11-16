@@ -1,0 +1,167 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #eef2f6;
+    color: #1e293b;
+    padding: 16px;
+}
+
+.jogo {
+    background-color: #ffffff;
+    padding: 32px 24px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    font-size: 1.75rem;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.dica {
+    font-size: 0.95rem;
+    color: #475569;
+    background-color: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+#palavra {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 6px;
+    margin: 24px 0;
+    color: #1d4ed8;
+    word-break: break-all;
+}
+
+.status p {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.placar {
+    font-size: 0.85rem !important;
+    color: #64748b;
+}
+
+.controles {
+    margin: 20px 0 12px;
+}
+
+.controles label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-grupo {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+input {
+    width: 56px;
+    padding: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+input:disabled {
+    background-color: #f1f5f9;
+    cursor: not-allowed;
+}
+
+button {
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#btn-tentar {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+#btn-tentar:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+#btn-tentar:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.mensagem {
+    min-height: 24px;
+    margin: 14px 0;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.mensagem.acerto {
+    color: #16a34a;
+}
+
+.mensagem.erro {
+    color: #dc2626;
+}
+
+.mensagem.aviso {
+    color: #d97706;
+}
+
+.historico {
+    margin: 16px 0 24px;
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+#letras-usadas {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#btn-reiniciar {
+    background-color: #0f172a;
+    color: #ffffff;
+    width: 100%;
+}
+
+#btn-reiniciar:hover {
+    background-color: #334155;
+}
